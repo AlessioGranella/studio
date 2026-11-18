@@ -88,17 +88,20 @@ main{min-width:0;padding:0 var(--pad) 48px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sh);transition:box-shadow .2s var(--ease),transform .2s var(--ease),border-color .2s;min-width:0}
 .card:hover{box-shadow:var(--sh-h);transform:translateY(-2px);border-color:var(--line-2)}
-.thumb{aspect-ratio:16/10;background:var(--subtle);overflow:hidden;display:block;position:relative;width:100%;border-bottom:1px solid var(--line)}
-.thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .5s var(--ease)}
-.card:hover .thumb img{transform:scale(1.035)}
-.thumb img.v,.mosaic img.v{object-fit:contain;object-position:center;padding:10px 0;background:var(--subtle)}
-.ph{width:100%;height:100%;display:grid;place-items:center;background:var(--subtle);color:var(--fg-3)}
+.thumb{aspect-ratio:16/10;background:var(--subtle);overflow:hidden;display:block;position:relative;width:100%;padding:12px 12px 0}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;border-radius:6px 6px 0 0;box-shadow:0 0 0 1px rgba(22,32,26,.06),0 2px 8px rgba(22,32,26,.08);transition:transform .5s var(--ease)}
+.card:hover .thumb img{transform:translateY(-3px)}
+.thumb img.v{object-fit:contain;object-position:center bottom;box-shadow:none;border-radius:0;filter:drop-shadow(0 2px 6px rgba(22,32,26,.14))}
+.ph{width:100%;height:100%;display:grid;place-items:center;background:var(--panel);border-radius:6px 6px 0 0;box-shadow:0 0 0 1px rgba(22,32,26,.06);color:var(--fg-3)}
 .ph div{display:flex;flex-direction:column;align-items:center;gap:8px}
 .ph svg{width:28px;height:28px;stroke-width:1.4}
 .ph b{font-size:.68rem;font-weight:600;letter-spacing:.08em}
-.badge{position:absolute;top:10px;left:10px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);color:var(--fg);padding:3px 8px;border-radius:999px;font-size:.7rem;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.badge{position:absolute;top:20px;left:20px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);color:var(--fg);padding:3px 8px;border-radius:999px;font-size:.7rem;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12)}
 .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:#2FB15C}
-.cbody{padding:12px 14px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cbody{padding:12px 14px 14px;display:flex;flex-direction:column;gap:3px;flex:1;border-top:1px solid var(--line)}
+.meta{font-size:.74rem;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta button{color:var(--fg-2);font-weight:500}
+.meta button:hover{color:var(--fg);text-decoration:underline}
 .pill{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;max-width:100%;font-size:.72rem;font-weight:500;color:var(--fg-2);background:var(--subtle);border-radius:999px;padding:2px 9px 2px 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 button.pill:hover{background:var(--hover);color:var(--fg)}
 .pill .cdot{margin:0;width:7px;height:7px;border-radius:50%}
@@ -107,9 +110,11 @@ button.pill:hover{background:var(--hover);color:var(--fg)}
 .cfoot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:8px;border-top:1px solid var(--line)}
 .type{display:inline-flex;align-items:center;gap:6px;color:var(--fg-3);font-size:.75rem;font-weight:500}
 .type svg{width:14px;height:14px}
-.acts{display:flex;gap:4px}
-.ib{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:var(--fg-2);transition:background .15s,color .15s}
-.ib:hover{background:var(--subtle);color:var(--fg)}
+.card{position:relative}
+.acts{position:absolute;top:20px;right:20px;display:flex;gap:4px;transition:opacity .15s}
+@media (hover:hover){.card .acts{opacity:0}.card:hover .acts,.card:focus-within .acts{opacity:1}}
+.ib{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:var(--fg);background:rgba(255,255,255,.95);box-shadow:0 1px 3px rgba(22,32,26,.18);transition:background .15s,color .15s}
+.ib:hover{background:#fff;color:var(--rust)}
 .ib.primary{background:var(--brand);color:#fff}
 .ib.primary:hover{background:var(--brand-2);color:#fff}
 .ib svg{width:15px;height:15px}
@@ -173,6 +178,39 @@ button.pill:hover{background:var(--hover);color:var(--fg)}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
+
+/* ---------- elenchi ordinati (categorie, clienti, agenti) */
+.split{margin-top:30px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:24px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.rows2{display:grid;grid-template-columns:1fr 1fr}
+.rowlink{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);transition:background .15s;min-width:0}
+.rows2 .rowlink:nth-child(odd){border-right:1px solid var(--line)}
+.rowlink:hover{background:var(--subtle)}
+.rowlink .ic{width:32px;height:32px;border-radius:8px;background:var(--subtle);color:var(--fg-2);display:grid;place-items:center;flex:none}
+.rowlink:hover .ic{background:var(--panel)}
+.rowlink .tx{flex:1;min-width:0}
+.rowlink b{display:block;font-weight:600;color:var(--fg);font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rowlink small{display:block;color:var(--fg-3);font-size:.76rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rowlink .n{font-size:.78rem;color:var(--fg-3);font-variant-numeric:tabular-nums}
+.rowlink .chev{color:var(--line-2)}
+.rowlink:hover .chev{color:var(--fg-2)}
+.panel>.rowlink:last-child,.rows2 .rowlink:nth-last-child(-n+2):nth-child(odd),.rows2 .rowlink:last-child{border-bottom:0}
+table.t{width:100%;border-collapse:collapse}
+.t th{text-align:left;font-size:.72rem;font-weight:600;color:var(--fg-3);text-transform:uppercase;letter-spacing:.05em;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--subtle)}
+.t td{padding:11px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+.t tr:last-child td{border-bottom:0}
+.t tbody tr{cursor:pointer;transition:background .15s}
+.t tbody tr:hover{background:var(--subtle)}
+.t .who{display:flex;align-items:center;gap:12px;min-width:0}
+.t .who b{display:block;color:var(--fg);font-weight:600}
+.t .who small{display:block;color:var(--fg-3);font-size:.76rem;max-width:46ch;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t .num{font-variant-numeric:tabular-nums;color:var(--fg-2)}
+.t .group td{background:var(--bg);font-size:.72rem;font-weight:600;color:var(--fg-3);text-transform:uppercase;letter-spacing:.05em;padding:14px 16px 6px;cursor:default}
+.t .group:hover{background:none}
+.initials{background:var(--subtle)!important;color:var(--fg)!important}
+@media (max-width:1100px){.split{grid-template-columns:1fr}}
+@media (max-width:700px){.rows2{grid-template-columns:1fr}.rows2 .rowlink:nth-child(odd){border-right:0}.rows2 .rowlink:nth-last-child(2):nth-child(odd){border-bottom:1px solid var(--line)}.t .hide-s{display:none}}
+
 /* ---------- mobile */
 .menu-btn{display:none}
 @media (max-width:900px){
@@ -185,7 +223,8 @@ button.pill:hover{background:var(--hover);color:var(--fg)}
   .bar .me span{display:none}
   .stats{grid-template-columns:repeat(2,1fr);gap:10px}
   .cols3{grid-template-columns:1fr}
-  .grid,.tiles{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+  .grid,.tiles,.grid.compact{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+  .thumb{padding:8px 8px 0}.badge{top:14px;left:14px}.acts{top:14px;right:14px}
   .cbody p{display:none}
 }
 </style>
@@ -242,6 +281,18 @@ const P = {
   spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16v4M17 18h4"/>',
   layers:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
 };
+Object.assign(P, {
+  palette:'<circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.2"/><circle cx="12" cy="7.5" r="1.2"/><circle cx="16" cy="10" r="1.2"/><path d="M12 21a2 2 0 0 1 0-4h1.5a2 2 0 0 0 0-4"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  check:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="m8 12 3 3 5-6"/>',
+  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/>',
+  printer:'<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
+  tool:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
+  wallet:'<rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M16 15h2"/>',
+  chev:'<path d="m9 6 6 6-6 6"/>',
+});
+const CATICON = {brand:'palette', aibs:'spark', vetrina:'user', proposte:'text', pm:'check', business:'target', web:'globe', video:'video', stampa:'printer', strumenti:'tool', finanza:'wallet'};
 const ico = n => `<svg viewBox="0 0 24 24">${P[n]}</svg>`;
 const TYPEICON = {PDF:'file', Pagina:'page', Excel:'sheet', Testo:'text', PowerPoint:'file', Word:'text', Cartella:'folder', File:'file', Online:'globe'};
 const CATCOLOR = {brand:'#D14124', aibs:'#7A5AF8', vetrina:'#E08A1E', proposte:'#2E5E8C', pm:'#0E9384', business:'#C11574',
@@ -259,18 +310,15 @@ function thumb(it) {
 function card(it) {
   const href = primaryHref(it);
   const acts = [];
-  if (it.u) acts.push(`<a class="ib primary" href="${esc(it.u)}" target="_blank" rel="noopener" title="Apri online">${ico('ext')}</a>`);
+  if (it.u) acts.push(`<a class="ib" href="${esc(it.u)}" target="_blank" rel="noopener" title="Apri online">${ico('ext')}</a>`);
   if (it.p && LOCAL) acts.push(`<a class="ib" href="${esc(localHref(it.p))}" target="_blank" title="${it.y === 'Cartella' ? 'Apri cartella' : 'Apri file'}">${ico(it.y === 'Cartella' ? 'folder' : 'file')}</a>`);
   if (it.p) acts.push(`<button class="ib" data-copy="${esc(HOME + it.p)}" title="Copia percorso">${ico('copy')}</button>`);
-  const who = it.k
-    ? `<button class="pill" data-go="cliente/${it.k}"><span class="cdot" style="background:${avatarColor(it.k)}"></span>${esc(CL[it.k].n)}</button>`
-    : `<span class="pill"><span class="cdot" style="background:var(--rust)"></span>Studio</span>`;
+  const who = it.k ? `<button data-go="cliente/${it.k}">${esc(CL[it.k].n)}</button>` : 'Studio';
   const th = href
     ? `<a class="thumb" href="${esc(href)}" target="_blank" rel="noopener">${thumb(it)}${it.u ? '<span class="badge">Online</span>' : ''}</a>`
     : `<button class="thumb" data-copy="${esc(HOME + it.p)}" title="Copia percorso">${thumb(it)}</button>`;
-  return `<article class="card">${th}
-    <div class="cbody">${who}<h3>${esc(it.t)}</h3>${it.d ? `<p>${esc(it.d)}</p>` : ''}
-    <div class="cfoot"><span class="type">${ico(TYPEICON[it.y] || 'file')}${esc(it.y)}</span><div class="acts">${acts.join('')}</div></div></div></article>`;
+  return `<article class="card">${th}<div class="acts">${acts.join('')}</div>
+    <div class="cbody"><div class="meta">${who} · ${esc(it.y)}</div><h3>${esc(it.t)}</h3>${it.d ? `<p>${esc(it.d)}</p>` : ''}</div></article>`;
 }
 function mosaic(list) {
   const pick = [...list.filter(x => x.i), ...list.filter(x => !x.i)].slice(0, 3);
@@ -306,13 +354,12 @@ const VIEWS = {
       </div>
       <div class="sec"><h2>Ultimi lavori</h2><a class="link" href="#cat/all">Vedi tutti ${ico('arrow')}</a></div>
       ${grid(recent(window.innerWidth > 1720 ? 6 : window.innerWidth > 900 ? 5 : 4), 'compact')}
-      <div class="sec"><h2>Categorie</h2></div>
-      <div class="tiles compact">${DATA.cats.map(c => {
-        const list = DATA.items.filter(x => x.c === c.id);
-        return `<a class="tile" href="#cat/${c.id}">${mosaic(list)}<div class="tb"><span class="cdot" style="background:${CATCOLOR[c.id]}"></span><h3>${esc(c.n)}</h3><span class="n">${list.length}</span></div></a>`;
-      }).join('')}</div>
-      <div class="sec"><h2>Agenti</h2><a class="link" href="#agenti">Dettagli ${ico('arrow')}</a></div>
-      <div class="cols3">${DATA.agents.map(a => agentCard(a, true)).join('')}</div>`;
+      <div class="split">
+        <div><div class="sec"><h2>Categorie</h2></div>
+          <div class="panel rows2">${DATA.cats.map(c => `<a class="rowlink" href="#cat/${c.id}"><span class="ic">${ico(CATICON[c.id])}</span><span class="tx"><b>${esc(c.n)}</b><small>${esc(c.d)}</small></span><span class="n">${c.count}</span></a>`).join('')}</div></div>
+        <div><div class="sec"><h2>Agenti</h2><a class="link" href="#agenti">Dettagli ${ico('arrow')}</a></div>
+          <div class="panel">${DATA.agents.map(a => `<a class="rowlink" href="#agenti"><span class="ic">${ico('bot')}</span><span class="tx"><b>${esc(a.n)}</b><small>${esc(a.w)}</small></span>${st(a.s)}</a>`).join('')}</div></div>
+      </div>`;
   },
   cat(id) {
     const list = id === 'all' ? DATA.items : DATA.items.filter(x => x.c === id);
@@ -327,12 +374,10 @@ const VIEWS = {
   clienti() {
     head('Clienti', `${DATA.clients.length} tra diretti, collaborazioni e DROP`);
     const groups = [['Clienti diretti', c => c.r === 'Cliente diretto'], ['Collaborazioni', c => ['Collaborazione', 'Agenzia'].includes(c.r)], ['Tramite DROP', c => c.r === 'Via DROP']];
-    return groups.map(([t, f]) => `<div class="sec"><h2>${t}</h2></div><div class="tiles">${DATA.clients.filter(f).map(c => {
-      const list = DATA.items.filter(x => x.k === c.id);
-      return `<a class="tile" href="#cliente/${c.id}">${mosaic(list)}
-        <div class="tb"><span class="initials" style="background:${avatarColor(c.id)}">${initials(c.n)}</span><h3>${esc(c.n)}</h3>${st(c.s)}</div>
-        <p class="d">${esc(c.d)} · ${list.length} ${list.length === 1 ? 'lavoro' : 'lavori'}</p></a>`;
-    }).join('')}</div>`).join('');
+    const rows = groups.map(([t, f]) => `<tr class="group"><td colspan="4">${t}</td></tr>` + DATA.clients.filter(f).map(c => `
+      <tr data-go="cliente/${c.id}"><td><div class="who"><span class="initials">${initials(c.n)}</span><div><b>${esc(c.n)}</b><small>${esc(c.d)}</small></div></div></td>
+      <td>${st(c.s)}</td><td class="num">${c.count}</td><td class="hide-s" style="width:40px;color:var(--line-2)">${ico('chev')}</td></tr>`).join('')).join('');
+    return `<div class="panel"><table class="t"><thead><tr><th>Cliente</th><th>Stato</th><th>Lavori</th><th class="hide-s"></th></tr></thead><tbody>${rows}</tbody></table></div>`;
   },
   cliente(id) {
     const c = CL[id];
@@ -359,7 +404,7 @@ function navs() {
   const main = [['home', 'Panoramica', '', 'home'], ['clienti', 'Clienti', DATA.clients.length, 'users'], ['agenti', 'Agenti', DATA.agents.length, 'bot'],
                 ['online', 'Online', DATA.online, 'globe'], ['cat/all', 'Tutti i lavori', DATA.items.length, 'grid']];
   $('#navMain').innerHTML = main.map(([h, n, c, i]) => `<a href="#${h}" class="${r === h || (h === 'clienti' && r.startsWith('cliente/')) ? 'on' : ''}">${ico(i)}<span>${n}</span><small>${c}</small></a>`).join('');
-  $('#navCats').innerHTML = '<h4>Categorie</h4>' + DATA.cats.map(c => `<a href="#cat/${c.id}" class="${r === 'cat/' + c.id ? 'on' : ''}"><span class="cdot" style="background:${CATCOLOR[c.id]}"></span><span>${esc(c.n)}</span><small>${c.count}</small></a>`).join('');
+  $('#navCats').innerHTML = '<h4>Categorie</h4>' + DATA.cats.map(c => `<a href="#cat/${c.id}" class="${r === 'cat/' + c.id ? 'on' : ''}">${ico(CATICON[c.id])}<span>${esc(c.n)}</span><small>${c.count}</small></a>`).join('');
 }
 function route() {
   const r = location.hash.slice(1) || 'home';
