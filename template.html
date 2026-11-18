@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Lo studio di Alessio Granella</title>
+<link rel="icon" href="brand/monogramma-rust.svg">
+<style>
+@font-face{font-family:'Augustina';src:url('font/DTAugustinaSlab-3Light.otf') format('opentype');font-weight:300;font-display:swap}
+@font-face{font-family:'Augustina';src:url('font/DTAugustinaSlab-3Regular.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'Augustina';src:url('font/DTAugustinaSlab-3Medium.otf') format('opentype');font-weight:500;font-display:swap}
+:root{
+  --ag-paper:#F0EFEE;--ag-soft:#DFDAD5;--ag-ink:#1A2B1E;--ag-verde:#243728;--ag-rust:#D14124;--ag-rust-strong:#B8381F;
+  --ag-muschio:#8FAF90;--ag-body:#344238;--ag-muted:#5D6A60;--ag-line:#C8C6C2;--ag-line-dark:#485349;
+  --ag-on-dark:#E4E8E4;--ag-on-dark-muted:#ADB8AE;
+  --ag-bg:var(--ag-paper);--ag-fg:var(--ag-ink);--ag-fg-body:var(--ag-body);--ag-fg-muted:var(--ag-muted);
+  --ag-accent:var(--ag-rust);--ag-border:var(--ag-line);
+  --ag-font:'Augustina',Georgia,'Times New Roman',serif;
+  --ag-gutter:32px;--ag-band-pad:clamp(72px,9vw,132px);
+  --ag-ease:cubic-bezier(.2,.7,.2,1);--ag-dur:.18s;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--ag-bg);color:var(--ag-fg-body);font-family:var(--ag-font);font-size:18px;line-height:1.55;font-weight:400;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1280px;margin:0 auto;padding:0 var(--ag-gutter)}
+.band{padding:var(--ag-band-pad) 0}
+.band--alt{background:var(--ag-soft)}
+.band--dark{background:var(--ag-ink);--ag-fg:var(--ag-on-dark);--ag-fg-body:var(--ag-on-dark-muted);--ag-fg-muted:var(--ag-on-dark-muted);--ag-accent:var(--ag-muschio);--ag-border:var(--ag-line-dark);color:var(--ag-fg-body)}
+.band--verde{background:var(--ag-verde);--ag-fg:var(--ag-on-dark);--ag-fg-body:var(--ag-on-dark-muted);--ag-fg-muted:var(--ag-on-dark-muted);--ag-accent:var(--ag-muschio);--ag-border:var(--ag-line-dark);color:var(--ag-fg-body)}
+.eyebrow{font-size:.72rem;font-weight:500;text-transform:uppercase;letter-spacing:.15em;color:var(--ag-accent)}
+h1,h2,h3{color:var(--ag-fg);font-weight:300;letter-spacing:-.035em}
+h1{font-size:clamp(3.1rem,7.4vw,7.4rem);line-height:.92}
+h2{font-size:clamp(2.2rem,4.4vw,4.1rem);line-height:1}
+h3{font-size:1.25rem;line-height:1.12;letter-spacing:-.02em;font-weight:400}
+em{font-style:normal;color:var(--ag-accent)}
+.ui{font-size:.8rem;font-weight:500;text-transform:uppercase;letter-spacing:.09em}
+.muted{color:var(--ag-fg-muted)}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:10;background:var(--ag-bg);border-bottom:1px solid var(--ag-border)}
+.top .wrap{display:flex;align-items:center;gap:24px;height:64px}
+.top img{width:30px;height:30px}
+.top .name{color:var(--ag-fg);font-size:1rem;white-space:nowrap}
+.top nav{margin-left:auto;display:flex;gap:28px}
+.top nav a{text-decoration:none;color:var(--ag-fg)}
+.top nav a:hover{color:var(--ag-accent)}
+
+/* hero */
+.hero{padding:clamp(56px,7vw,104px) 0 clamp(48px,6vw,88px)}
+.hero .greet{margin-bottom:28px}
+.hero p.lead{font-size:1.14rem;max-width:62ch;margin-top:32px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(48px,6vw,80px);border-top:1px solid var(--ag-border)}
+.stats div{padding:20px 20px 0 0;border-right:1px solid var(--ag-border);padding-left:20px}
+.stats div:first-child{padding-left:0}
+.stats div:last-child{border-right:0}
+.stats b{display:block;font-weight:300;font-size:clamp(2.2rem,4vw,3.4rem);line-height:1;color:var(--ag-fg);letter-spacing:-.035em}
+.search{margin-top:48px;display:flex;align-items:center;border-bottom:1px solid var(--ag-fg);max-width:720px}
+.search input{flex:1;background:transparent;border:0;outline:0;font:inherit;font-size:1.65rem;font-weight:300;color:var(--ag-fg);padding:10px 0;letter-spacing:-.02em}
+.search input::placeholder{color:var(--ag-fg-muted)}
+.search button{background:none;border:0;font:inherit;cursor:pointer;color:var(--ag-fg-muted)}
+
+/* section head */
+.shead{display:grid;grid-template-columns:.4fr 1.6fr;gap:32px;margin-bottom:56px;align-items:start}
+.shead p{margin-top:16px;max-width:62ch}
+
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:6px 24px;padding-bottom:20px;border-bottom:1px solid var(--ag-border);margin-bottom:8px}
+.filters button{background:none;border:0;font:inherit;cursor:pointer;color:var(--ag-fg-muted);padding:6px 0;border-bottom:1px solid transparent}
+.filters button:hover{color:var(--ag-fg)}
+.filters button[aria-pressed=true]{color:var(--ag-fg);border-bottom-color:var(--ag-accent)}
+.filters sup{font-size:.62rem;margin-left:3px}
+.active-client{display:none;align-items:center;gap:16px;margin:16px 0 0}
+.active-client.on{display:flex}
+.active-client button{background:none;border:0;font:inherit;color:var(--ag-accent);cursor:pointer}
+
+/* groups */
+.group{margin-top:56px}
+.group-head{display:grid;grid-template-columns:.4fr 1.6fr;gap:32px;padding-bottom:16px;border-bottom:1px solid var(--ag-fg)}
+.group-head h3{font-size:1.65rem;font-weight:300;letter-spacing:-.035em}
+.row{display:grid;grid-template-columns:.4fr 1fr .6fr;gap:32px;padding:18px 0;border-bottom:1px solid var(--ag-border);align-items:baseline}
+.row .meta{display:flex;gap:10px;flex-wrap:wrap}
+.row .t{color:var(--ag-fg);font-size:1.12rem;line-height:1.3}
+.row .d{font-size:.92rem;color:var(--ag-fg-muted);margin-top:2px}
+.row .acts{display:flex;gap:18px;justify-content:flex-end;flex-wrap:wrap}
+.acts a,.acts button{background:none;border:0;font:inherit;cursor:pointer;text-decoration:none;color:var(--ag-fg);border-bottom:1px solid var(--ag-border);padding-bottom:1px;white-space:nowrap}
+.acts a:hover,.acts button:hover{color:var(--ag-accent);border-bottom-color:var(--ag-accent)}
+.acts a.primary{color:var(--ag-accent);border-bottom-color:var(--ag-accent)}
+.tag{font-size:.68rem;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:var(--ag-fg-muted)}
+.tag.cl{color:var(--ag-fg);cursor:pointer;background:none;border:0;font-family:inherit;padding:0;text-align:left}
+.tag.cl:hover{color:var(--ag-accent)}
+.empty{padding:48px 0;color:var(--ag-fg-muted)}
+
+/* clients */
+.clients{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ag-fg)}
+.client{padding:28px 28px 28px 0;border-bottom:1px solid var(--ag-border);display:flex;flex-direction:column;gap:10px}
+.client:nth-child(3n+2),.client:nth-child(3n){padding-left:28px;border-left:1px solid var(--ag-border)}
+.client .top2{display:flex;justify-content:space-between;gap:12px}
+.client h3{font-size:1.65rem;font-weight:300;letter-spacing:-.035em}
+.client .st{color:var(--ag-accent)}
+.client p{font-size:.95rem}
+.client .acts{display:flex;gap:18px;margin-top:auto;padding-top:8px;flex-wrap:wrap}
+
+/* agents */
+.agents{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ag-on-dark)}
+.agent{padding:32px 28px 32px 0;display:flex;flex-direction:column;gap:12px}
+.agent+.agent{padding-left:28px;border-left:1px solid var(--ag-border)}
+.agent h3{font-size:clamp(2.2rem,3.4vw,3rem);font-weight:300;letter-spacing:-.035em;line-height:1}
+.agent .acts{display:flex;gap:18px;flex-wrap:wrap;margin-top:auto;padding-top:12px}
+.band--dark .acts a,.band--dark .acts button{color:var(--ag-on-dark);border-bottom-color:var(--ag-line-dark)}
+.band--dark .acts a:hover{color:var(--ag-muschio);border-bottom-color:var(--ag-muschio)}
+.paused{opacity:.6}
+.skills{margin-top:72px}
+.skills .row{grid-template-columns:.4fr 1.6fr}
+
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+footer img{width:72px;height:72px}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ag-ink);color:var(--ag-on-dark);padding:12px 20px;opacity:0;transition:all var(--ag-dur) var(--ag-ease);pointer-events:none;font-size:.92rem}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:900px){
+  .shead,.group-head{grid-template-columns:1fr;gap:12px}
+  .row{grid-template-columns:1fr;gap:6px}
+  .row .acts{justify-content:flex-start;margin-top:6px}
+  .clients,.agents{grid-template-columns:1fr}
+  .client,.client:nth-child(3n+2),.client:nth-child(3n){padding:24px 0;border-left:0}
+  .agent,.agent+.agent{padding:28px 0;border-left:0;border-top:1px solid var(--ag-line-dark)}
+  .agent:first-child{border-top:0}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats div{border-right:0;padding-left:0;padding-bottom:16px}
+  .skills .row{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  :root{--ag-gutter:20px}
+  body{font-size:17px}
+  .top nav{display:none}
+  .search input{font-size:1.3rem}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <img src="brand/monogramma-rust.svg" alt="">
+    <span class="name">Lo studio di Alessio Granella</span>
+    <nav class="ui">
+      <a href="#lavori">Lavori</a><a href="#clienti">Clienti</a><a href="#agenti">Agenti</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow greet" id="greet">Lo studio</p>
+    <h1>Lo studio di<br>Alessio <em>Granella</em></h1>
+    <p class="lead">Il mio studio virtuale. Qui ritrovo tutto quello che ho fatto: brand, proposte, preventivi, pagine, video, clienti e gli agenti che lavorano con me.</p>
+    <div class="stats" id="stats"></div>
+    <label class="search">
+      <input id="q" type="search" placeholder="Cerca un lavoro, un cliente, un file…" autocomplete="off">
+      <button class="ui" id="qclear" hidden>Cancella</button>
+    </label>
+  </div>
+</section>
+
+<section class="band band--alt" id="lavori">
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Lavori</p>
+      <div><h2>Tutto, per <em>categoria</em></h2>
+      <p id="modeNote"></p></div>
+    </div>
+    <div class="filters ui" id="filters" role="toolbar" aria-label="Categorie"></div>
+    <div class="active-client" id="activeClient"><span class="ui">Cliente: <span id="acName"></span></span><button class="ui" id="acClear">Mostra tutti</button></div>
+    <div id="groups"></div>
+  </div>
+</section>
+
+<section class="band" id="clienti">
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Clienti</p>
+      <div><h2>Con chi <em>lavoro</em></h2>
+      <p>Clienti diretti, collaborazioni e progetti arrivati tramite DROP. «Vedi lavori» filtra l'elenco sopra.</p></div>
+    </div>
+    <div class="clients" id="clients"></div>
+  </div>
+</section>
+
+<section class="band band--dark" id="agenti">
+  <div class="wrap">
+    <div class="shead">
+      <p class="eyebrow">Agenti</p>
+      <div><h2>Chi lavora con me, <em>da solo</em></h2>
+      <p>Le routine che girano nel cloud ogni giorno e le skill che ho costruito.</p></div>
+    </div>
+    <div class="agents" id="agents"></div>
+    <div class="skills">
+      <div class="group-head"><p class="eyebrow">Skill</p><h3>Istruzioni riutilizzabili</h3></div>
+      <div id="skills"></div>
+    </div>
+  </div>
+</section>
+
+<footer class="band band--verde" style="padding:56px 0">
+  <div class="wrap">
+    <img src="brand/tondo-muschio.svg" alt="Alessio Granella · Graphic Design Studio">
+    <p>Al tuo fianco ad ogni passo.</p>
+    <p class="ui">Aggiornato il __DATE__</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const LOCAL = location.protocol === 'file:';
+const BASE = '../../';                       // index.html sta in Operativa/Alessio Granella/Studio
+const HOME = '~/Desktop/Operativa/';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const clientById = Object.fromEntries(DATA.clients.map(c => [c.id, c]));
+const localHref = p => BASE + p.split('/').map(encodeURIComponent).join('/');
+let state = {cat: 'all', q: '', client: null};
+try { const s = JSON.parse(localStorage.getItem('studio-ag') || '{}'); if (s.cat) state.cat = s.cat; } catch (e) {}
+
+// saluto
+const h = new Date().getHours();
+$('#greet').textContent = (h < 13 ? 'Buongiorno' : h < 18 ? 'Buon pomeriggio' : 'Buonasera') + ', Alessio';
+$('#modeNote').textContent = LOCAL
+  ? 'Stai usando la copia sul Mac: i file locali si aprono direttamente.'
+  : 'Versione online: i siti si aprono, dei file sul Mac puoi copiare il percorso (Finder → Vai → Vai alla cartella).';
+
+$('#stats').innerHTML = [
+  [DATA.items.length, 'lavori'], [DATA.clients.length, 'clienti'],
+  [DATA.online, 'online'], [DATA.agents.filter(a => a.s === 'Attivo').length, 'agenti attivi']
+].map(([n, l]) => `<div><b>${n}</b><span class="ui muted">${l}</span></div>`).join('');
+
+function actions(it) {
+  const a = [];
+  if (it.u) a.push(`<a class="primary ui" href="${esc(it.u)}" target="_blank" rel="noopener">Apri online</a>`);
+  if (it.p && LOCAL) a.push(`<a class="ui" href="${esc(localHref(it.p))}" target="_blank">${it.y === 'Cartella' ? 'Apri cartella' : 'Apri file'}</a>`);
+  if (it.p) a.push(`<button class="ui" data-copy="${esc(HOME + it.p)}">Copia percorso</button>`);
+  return a.join('');
+}
+
+function match(it) {
+  if (state.client && it.k !== state.client) return false;
+  if (!state.q) return true;
+  const c = it.k ? clientById[it.k].n : '';
+  const cat = DATA.cats.find(x => x.id === it.c).n;
+  return [it.t, it.d, c, cat, it.y, it.p || ''].join(' ').toLowerCase().includes(state.q);
+}
+
+function renderFilters() {
+  const btn = (id, n, count) => `<button data-cat="${id}" aria-pressed="${state.cat === id}">${esc(n)}<sup>${count}</sup></button>`;
+  $('#filters').innerHTML = btn('all', 'Tutto', DATA.items.length) + DATA.cats.map(c => btn(c.id, c.n, c.count)).join('');
+}
+
+function render() {
+  renderFilters();
+  const vis = DATA.items.filter(match);
+  const cats = DATA.cats.filter(c => state.cat === 'all' || c.id === state.cat);
+  let html = '';
+  for (const c of cats) {
+    const rows = vis.filter(it => it.c === c.id);
+    if (!rows.length) continue;
+    html += `<div class="group"><div class="group-head"><p class="ui muted">${rows.length} ${rows.length === 1 ? 'voce' : 'voci'}</p><div><h3>${esc(c.n)}</h3><p class="d muted" style="font-size:.92rem;margin-top:4px">${esc(c.d)}</p></div></div>`;
+    for (const it of rows) {
+      const cl = it.k ? `<button class="tag cl" data-client="${it.k}">${esc(clientById[it.k].n)}</button>` : `<span class="tag">Studio</span>`;
+      html += `<div class="row"><div class="meta">${cl}<span class="tag">· ${esc(it.y)}</span></div>
+        <div><div class="t">${esc(it.t)}</div>${it.d ? `<div class="d">${esc(it.d)}</div>` : ''}</div>
+        <div class="acts">${actions(it)}</div></div>`;
+    }
+    html += '</div>';
+  }
+  $('#groups').innerHTML = html || `<p class="empty">Nessun risultato per «${esc(state.q)}».</p>`;
+  const ac = $('#activeClient');
+  ac.classList.toggle('on', !!state.client);
+  if (state.client) $('#acName').textContent = clientById[state.client].n;
+}
+
+function renderClients() {
+  $('#clients').innerHTML = DATA.clients.map(c => `
+    <article class="client">
+      <div class="top2"><span class="tag">${esc(c.r)}</span><span class="tag st">${esc(c.s)}</span></div>
+      <h3>${esc(c.n)}</h3>
+      <p>${esc(c.d)}</p>
+      <div class="acts">
+        ${c.count ? `<button class="ui" data-client="${c.id}">Vedi lavori (${c.count})</button>` : ''}
+        ${LOCAL ? `<a class="ui" href="${esc(localHref(c.p))}" target="_blank">Apri cartella</a>` : `<button class="ui" data-copy="${esc(HOME + c.p)}">Copia percorso</button>`}
+      </div>
+    </article>`).join('');
+}
+
+function renderAgents() {
+  $('#agents').innerHTML = DATA.agents.map(a => `
+    <article class="agent ${a.s !== 'Attivo' ? 'paused' : ''}">
+      <p class="eyebrow">${esc(a.s)} · ${esc(a.w)}</p>
+      <h3>${esc(a.n)}</h3>
+      <p class="ui" style="color:var(--ag-on-dark)">${esc(a.r)}</p>
+      <p>${esc(a.d)}</p>
+      <div class="acts">
+        ${a.o ? `<a class="ui" href="${esc(a.o[1])}" target="_blank" rel="noopener">${esc(a.o[0])}</a>` : ''}
+        <a class="ui" href="${esc(a.u)}" target="_blank" rel="noopener">Routine</a>
+      </div>
+    </article>`).join('');
+  $('#skills').innerHTML = DATA.skills.map(s => `
+    <div class="row"><div class="t" style="color:var(--ag-on-dark)">${esc(s.n)}</div><div>${esc(s.d)}</div></div>`).join('');
+}
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-cat],[data-client],[data-copy],#acClear,#qclear');
+  if (!t) return;
+  if (t.dataset.cat) { state.cat = t.dataset.cat; try { localStorage.setItem('studio-ag', JSON.stringify({cat: state.cat})); } catch (e) {} render(); }
+  else if (t.dataset.client) { state.client = t.dataset.client; state.cat = 'all'; render(); $('#lavori').scrollIntoView(); }
+  else if (t.dataset.copy) { copy(t.dataset.copy); }
+  else if (t.id === 'acClear') { state.client = null; render(); }
+  else if (t.id === 'qclear') { $('#q').value = ''; state.q = ''; t.hidden = true; render(); }
+});
+$('#q').addEventListener('input', e => {
+  state.q = e.target.value.trim().toLowerCase();
+  $('#qclear').hidden = !state.q;
+  if (state.q) state.cat = 'all';
+  render();
+});
+$('#q').addEventListener('keydown', e => { if (e.key === 'Enter') $('#lavori').scrollIntoView(); });
+document.addEventListener('keydown', e => { if (e.key === '/' && document.activeElement !== $('#q')) { e.preventDefault(); $('#q').focus(); } });
+
+function copy(text) {
+  const done = () => toast('Percorso copiato');
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => fallback(text));
+  else fallback(text);
+}
+function fallback(text) {
+  const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); toast('Percorso copiato'); } catch (e) { toast(text); }
+  ta.remove();
+}
+let tt; function toast(m) { const el = $('#toast'); el.textContent = m; el.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('on'), 1800); }
+
+render(); renderClients(); renderAgents();
+</script>
+</body>
+</html>
