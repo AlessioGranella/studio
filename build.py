@@ -197,6 +197,11 @@ SKILLS = [
 ]
 
 # ---------------------------------------------------------------- build
+# Anteprime: niente immagini per le categorie con dati riservati (prezzi, conti, contatti).
+NO_THUMB = {"proposte", "finanza", "business"}
+HERE = os.path.dirname(os.path.abspath(__file__))
+THUMBS = os.path.join(HERE, "thumbs")
+
 def kind_of(path, url):
     if path:
         ext = os.path.splitext(path)[1].lower()
@@ -204,14 +209,104 @@ def kind_of(path, url):
                 ".pptx": "PowerPoint", ".docx": "Word"}.get(ext, "Cartella" if os.path.isdir(os.path.join(ROOT, path)) else "File")
     return "Online"
 
-missing = []
-items = []
+def slug(s):
+    import re, unicodedata
+    s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", "-", s).strip("-")[:60]
+
+def mtime(path):
+    full = os.path.join(ROOT, path)
+    if os.path.isfile(full):
+        return os.path.getmtime(full)
+    newest = 0
+    for dp, dn, fn in os.walk(full):
+        dn[:] = [d for d in dn if d not in ("node_modules", ".git", "dist")]
+        for f in fn:
+            if not f.startswith("."):
+                try: newest = max(newest, os.path.getmtime(os.path.join(dp, f)))
+                except OSError: pass
+    return newest
+
+# Anteprime da una sorgente diversa dal file del lavoro (es. la build dist di un'app Vite)
+THUMB_FROM = {
+    "brand-design-system-personale": "Alessio Granella/design-system/dist/index.html",
+    "brand-aresu-design-system": "Drop/Progetti/ARESU Formaggi/design-system/dist/index.html",
+}
+
+def thumb_source(it):
+    """Cosa fotografare: url online, pagina html, pdf, o il primo html/pdf di una cartella."""
+    if it["id"] in THUMB_FROM:
+        return ("web", "http://127.0.0.1:8765/" + "/".join(__import__("urllib.parse").parse.quote(x) for x in THUMB_FROM[it["id"]].split("/")))
+    if it["u"]:
+        return ("web", it["u"])
+    p = it["p"]
+    full = os.path.join(ROOT, p)
+    if os.path.isdir(full):
+        cands = []
+        for dp, dn, fn in os.walk(full):
+            dn[:] = sorted(d for d in dn if d not in ("node_modules", ".git", "dist", "assets", "Old", "src"))
+            if dp.count(os.sep) - full.count(os.sep) > 2: continue
+            for f in sorted(fn):
+                if f.lower().endswith((".pdf", ".html")) and not f.startswith("."):
+                    cands.append(os.path.join(dp, f))
+        cands.sort(key=lambda x: (0 if x.endswith("index.html") else 1 if x.endswith(".html") else 2, x.count(os.sep)))
+        if not cands: return None
+        full = cands[0]
+    if full.lower().endswith(".pdf"): return ("pdf", full)
+    if full.lower().endswith(".html"): return ("web", "file://" + full)
+    return None
+
+def make_thumbs(items, force=False):
+    import subprocess, tempfile
+    os.makedirs(THUMBS, exist_ok=True)
+    tmp = tempfile.mkdtemp()
+    web = []
+    for it in items:
+        if it["c"] in NO_THUMB: continue
+        out = os.path.join(THUMBS, it["id"] + ".webp")
+        if os.path.exists(out) and not force: continue
+        src = thumb_source(it)
+        if not src: continue
+        png = os.path.join(tmp, it["id"] + ".png")
+        if src[0] == "pdf":
+            subprocess.run(["pdftoppm", "-f", "1", "-l", "1", "-singlefile", "-scale-to", "900", "-png", src[1], png[:-4]], capture_output=True)
+        else:
+            web.append({"id": it["id"], "src": src[1], "png": png})
+    if web:
+        srv = subprocess.Popen([sys.executable, "-m", "http.server", "8765", "--bind", "127.0.0.1"], cwd=ROOT,
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        __import__("time").sleep(1)
+        jobs = os.path.join(tmp, "jobs.json"); json.dump(web, open(jobs, "w"))
+        subprocess.run(["node", os.path.join(HERE, "tools", "shot.mjs"), jobs], cwd=os.path.join(HERE, "tools"))
+        srv.terminate()
+    from PIL import Image, ImageStat
+    for f in os.listdir(tmp):
+        if not f.endswith(".png"): continue
+        src = os.path.join(tmp, f)
+        if ImageStat.Stat(Image.open(src).convert("L")).stddev[0] < 3:
+            print("anteprima vuota, scartata:", f[:-4]); continue
+        subprocess.run(["cwebp", "-quiet", "-q", "72", "-resize", "640", "0", src, "-o", os.path.join(THUMBS, f[:-4] + ".webp")])
+
+missing, items, seen = [], [], set()
 for cat, title, desc, client, url, path in ITEMS:
     if path and not os.path.exists(os.path.join(ROOT, path)):
         missing.append(path)
-    items.append({"c": cat, "t": title, "d": desc, "k": client, "u": url, "p": path, "y": kind_of(path, url)})
+    iid = slug(cat + "-" + title)
+    assert iid not in seen, iid; seen.add(iid)
+    items.append({"id": iid, "c": cat, "t": title, "d": desc, "k": client, "u": url, "p": path,
+                  "y": kind_of(path, url), "m": int(mtime(path)) if path else 0})
 if missing:
     print("Percorsi mancanti:\n  " + "\n  ".join(missing)); sys.exit(1)
+
+if "--thumbs" in sys.argv or "--force-thumbs" in sys.argv:
+    make_thumbs(items, force="--force-thumbs" in sys.argv)
+from PIL import Image
+for it in items:
+    f = os.path.join(THUMBS, it["id"] + ".webp")
+    it["i"] = os.path.exists(f) and it["c"] not in NO_THUMB
+    if it["i"]:
+        w, h = Image.open(f).size
+        it["v"] = h > w * 0.75   # pagina verticale (PDF A4): si mostra intera
 
 clients = [{"id": i, "n": n, "r": r, "s": s, "d": d, "p": p} for i, n, r, s, d, p in CLIENTS]
 for c in clients:
@@ -222,7 +317,7 @@ skills = [{"n": n, "d": d} for n, d in SKILLS]
 
 data = json.dumps({"items": items, "clients": clients, "cats": cats, "agents": agents, "skills": skills,
                    "online": sum(1 for it in items if it["u"])}, ensure_ascii=False)
-tpl = open(os.path.join(os.path.dirname(__file__), "template.html"), encoding="utf-8").read()
+tpl = open(os.path.join(HERE, "template.html"), encoding="utf-8").read()
 out = tpl.replace("/*__DATA__*/null", data).replace("__DATE__", datetime.date.today().strftime("%d/%m/%Y"))
-open(os.path.join(os.path.dirname(__file__), "index.html"), "w", encoding="utf-8").write(out)
-print(f"OK: {len(items)} lavori, {len(clients)} clienti, {len(agents)} agenti → index.html")
+open(os.path.join(HERE, "index.html"), "w", encoding="utf-8").write(out)
+print(f"OK: {len(items)} lavori ({sum(it['i'] for it in items)} con anteprima), {len(clients)} clienti, {len(agents)} agenti → index.html")
