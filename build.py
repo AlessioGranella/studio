@@ -11,6 +11,7 @@ import html, json, os, sys, datetime
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))  # .../Operativa
 GH = "https://alessiogranella.github.io/"
+L = "Alessio Granella/Learning e processi/"  # kit The Futur tradotti
 
 # ---------------------------------------------------------------- categorie
 CATS = [
@@ -18,7 +19,7 @@ CATS = [
     ("aibs",      "AI Brand System",       "Il servizio: landing, whitepaper, pitch, presentazioni."),
     ("vetrina",   "Portfolio e sito",      "Come mi presento: portfolio, sito, landing, CV."),
     ("proposte",  "Proposte e preventivi", "Offerte, preventivi e proposte creative ai clienti."),
-    ("pm",        "Project management",    "Il metodo di lavoro con il team: modelli, email, checklist."),
+    ("pm",        "Learning e processi",   "Il metodo di lavoro: kit The Futur tradotti con PDF e pagine operative."),
     ("business",  "Sviluppo clienti",      "Strategia, outreach e liste prospect."),
     ("web",       "Siti, landing e casi studio", "Pagine pubblicate per i clienti."),
     ("video",     "Video e storyboard",    "Storyboard, processi e strumenti video."),
@@ -32,7 +33,6 @@ CLIENTS = [
     # id, nome, rapporto, stato, nota, cartella
     ("orisline",    "Orisline",            "Cliente diretto", "Attivo",     "Gestionali dentali (gruppo HSO). Rebuild sito e brand, 16/11–18/12/2026.", "Alessio Granella/Clienti/05_Clienti attivi/01_Orisline"),
     ("habitanova",  "Habitanova",          "Cliente diretto", "Attivo",     "Immobiliare di Iglesias. Brandbook v1.0 e mockup.", "Alessio Granella/Clienti/05_Clienti attivi/02_Habitanova"),
-    ("gloria",      "Gloria Longo",        "Cliente diretto", "Trattativa", "Brochure.", "Alessio Granella/Clienti/04_Trattative/Gloria Longo"),
     ("datafied",    "Datafied",            "Cliente diretto", "Trattativa", "Proposta in preparazione.", "Alessio Granella/Clienti/04_Trattative/Datafied"),
     ("oe",          "OpenEconomics",       "Collaborazione",  "Continuativo", "Design system, casi studio, video, bilancio, strumenti. Anche Civiqa e T33.", "OpenEconomics"),
     ("pa",          "Produttori Arborea",  "Collaborazione",  "Continuativo", "Marchi Primoverde, Rossopregio, Meridoro: DS, sito, schede, video.", "Produttori Arborea"),
@@ -90,7 +90,6 @@ ITEMS = [
     ("proposte", "Offerta servizi", "Cosa offro, in breve.", None, None, "Alessio Granella/Clienti/03_Materiali/Offerta_Servizi.md"),
     ("proposte", "Proposta tipo", "Struttura della proposta creativa.", None, None, "Alessio Granella/Clienti/03_Materiali/Proposta_Tipo.md"),
     ("proposte", "Struttura case study", "Come scrivere un caso studio.", None, None, "Alessio Granella/Clienti/03_Materiali/Struttura_Case_Study.md"),
-    ("proposte", "Preventivo Gloria Longo · brochure", "", "gloria", None, "Alessio Granella/Clienti/04_Trattative/Gloria Longo/Preventivo_Gloria_Longo_Brochure.pdf"),
     ("proposte", "Preventivo Orisline · brand e sito", "", "orisline", None, "Alessio Granella/Clienti/04_Trattative/Orisline/Preventivo_Orisline_Brand_Sito.pdf"),
     ("proposte", "Preventivo Orisline · completo", "", "orisline", None, "Alessio Granella/Clienti/04_Trattative/Orisline/Preventivo_Orisline_completo.pdf"),
     ("proposte", "Preventivo Orisline · v1", "", "orisline", None, "Alessio Granella/Clienti/04_Trattative/Orisline/Preventivo_Orisline_v1_3000.pdf"),
@@ -100,17 +99,27 @@ ITEMS = [
     ("proposte", "Murgia · strategia di identità", "Tavole di strategia.", "murgia", None, "Drop/Progetti/Progetto Murgia/Strategia di identità.pdf"),
     ("proposte", "Bespoke Berau · sintesi brief", "", "berau", None, "Drop/Progetti/Bespoke Berau/02. Sintesi brief/Kena Muri - Sintesi brief.pdf"),
 
-    # Project management
-    ("pm", "Kit project management", "The Futur tradotto per il team DROP.", "drop", GH+"project-management-kit/", "Alessio Granella/Project management/Italiano"),
-    ("pm", "Il metodo", "", None, None, "Alessio Granella/Project management/Italiano/PDF/01_Il-metodo.pdf"),
-    ("pm", "Checklist onboarding", "", None, None, "Alessio Granella/Project management/Italiano/PDF/02_Checklist-onboarding.pdf"),
-    ("pm", "Brief creativo · modello", "", None, None, "Alessio Granella/Project management/Italiano/PDF/04_Brief-creativo-modello.pdf"),
-    ("pm", "Calendario di produzione", "", None, None, "Alessio Granella/Project management/Italiano/PDF/06_Calendario-produzione.pdf"),
-    ("pm", "Presentare il lavoro", "", None, None, "Alessio Granella/Project management/Italiano/PDF/07_Presentare-il-lavoro.pdf"),
-    ("pm", "Modulo di approvazione", "", None, None, "Alessio Granella/Project management/Italiano/PDF/10_Modulo-approvazione.pdf"),
-    ("pm", "After action review", "", None, None, "Alessio Granella/Project management/Italiano/PDF/12_After-action-review.pdf"),
-    ("pm", "Struttura cartelle", "", None, None, "Alessio Granella/Project management/Italiano/PDF/13_Struttura-cartelle.pdf"),
-    ("pm", "Originali The Futur (EN)", "Template in inglese.", None, None, "Alessio Granella/Project management"),
+    # Learning e processi: kit The Futur tradotti (ogni kit: Italiano/ md + PDF, sito/index.html operativo)
+    ("pm", "Kit project management", "The Futur tradotto per il team DROP: metodo, modelli, email, checklist.", "drop", GH+"project-management-kit/", L+"Project management/sito/index.html"),
+    ("pm", "Il metodo", "", None, None, L+"Project management/Italiano/PDF/01_Il-metodo.pdf"),
+    ("pm", "Checklist onboarding", "", None, None, L+"Project management/Italiano/PDF/02_Checklist-onboarding.pdf"),
+    ("pm", "Brief creativo · modello", "", None, None, L+"Project management/Italiano/PDF/04_Brief-creativo-modello.pdf"),
+    ("pm", "Calendario di produzione", "", None, None, L+"Project management/Italiano/PDF/06_Calendario-produzione.pdf"),
+    ("pm", "Presentare il lavoro", "", None, None, L+"Project management/Italiano/PDF/07_Presentare-il-lavoro.pdf"),
+    ("pm", "Modulo di approvazione", "", None, None, L+"Project management/Italiano/PDF/10_Modulo-approvazione.pdf"),
+    ("pm", "After action review", "", None, None, L+"Project management/Italiano/PDF/12_After-action-review.pdf"),
+    ("pm", "Struttura cartelle", "", None, None, L+"Project management/Italiano/PDF/13_Struttura-cartelle.pdf"),
+    ("pm", "Kit style guide", "Come si fa, si vende e si consegna una style guide. Copy Arsenal, esempi Pebble e Hamilton.", None, None, L+"Style guide/sito/index.html"),
+    ("pm", "Kit Perfect Proposal", "Proposte commerciali: guida, modelli completo e di una pagina, Copy Arsenal, esempi.", None, None, L+"Perfect_Proposal/sito/index.html"),
+    ("pm", "Kit The Pitch Kit", "Gare e pitch: brief, scaletta del deck, 17 treatment reali tradotti.", None, None, L+"The Pitch Kit/sito/index.html"),
+    ("pm", "Kit Core Discovery", "Sessione di discovery con il cliente in 9 moduli, fino al brief.", None, None, L+"Core Discovery/sito/index.html"),
+    ("pm", "Kit Brand Messaging", "Workshop di messaging: workbook, scaletta, piattaforma dei messaggi.", None, None, L+"Brand Messaging/sito/index.html"),
+    ("pm", "Kit Stylescapes", "Direzioni visive prima del logo: lezione, worksheet, esempi.", None, None, L+"Stylescapes/sito/index.html"),
+    ("pm", "Kit Complete Case Study", "Scrivere e impaginare casi studio: guida, worksheet, deck Blind.", None, None, L+"Complete Case Study/sito/index.html"),
+    ("pm", "Kit First Meeting Workbook", "Il primo incontro con il cliente, compilabile ed esportabile per Notion.", None, None, L+"First Meeting Workbook/sito/index.html"),
+    ("pm", "Kit Colore", "Color For Creatives: glossario, risorse, verifica del valore, palette.", None, None, L+"Colore/sito/index.html"),
+    ("pm", "Kit Illustrazione per designer", "Principi, stilizzazione, linguaggio visivo, presentazione.", None, None, L+"Illustrationn for Designers/sito/index.html"),
+    ("pm", "Originali The Futur (EN)", "Tutti i kit originali in inglese.", None, None, L.rstrip('/')),
     ("pm", "Checklist nuova analisi OE", "", "oe", None, "OpenEconomics/Checklist nuova analisi/Checklist nuova analisi OE.pdf"),
     ("pm", "Marketing task board", "Bacheca attività marketing OE.", "oe", GH+"marketing-task-board/", None),
 
