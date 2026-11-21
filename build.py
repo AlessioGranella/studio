@@ -171,6 +171,7 @@ ITEMS = [
     ("stampa", "Linee guida caroselli DROP", "", "drop", None, "Drop/Templates/Social Templates"),
 
     # Strumenti e template
+    ("strumenti", "Brand process", "Con il cliente dal primo incontro al caso studio: proposta, strategia, voce, identità.", None, None, "Alessio Granella/Brand process/index.html"),
     ("strumenti", "OpenEconomics Layout Designer", "Dal Word al documento impaginato.", "oe", GH+"impaginatore-oe-prova/", "OpenEconomics/strumenti/impaginatore-prova"),
     ("strumenti", "Check DS", "Controllo automatico delle pagine OE.", "oe", None, "OpenEconomics/strumenti/check-ds"),
     ("strumenti", "Template caso studio OE", "10 fasce, hero normata.", "oe", None, "OpenEconomics/progetti/_template-caso-studio"),
